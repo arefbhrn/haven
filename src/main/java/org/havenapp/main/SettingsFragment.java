@@ -89,6 +89,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         }
 
+        SwitchPreference emailSwitchPreference =
+                (SwitchPreference) findPreference(PreferenceManager.EMAIL_NOTIFICATION_ACTIVE);
+        emailSwitchPreference.setChecked(preferences.isEmailNotificationActive());
+        emailSwitchPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean enabled = (Boolean) newValue;
+            preferences.setEmailNotificationActive(enabled);
+            emailSwitchPreference.setChecked(enabled);
+            return false;
+        });
+
         SwitchPreference switchPreference =
                 (SwitchPreference) findPreference(PreferenceManager.REMOTE_NOTIFICATION_ACTIVE);
 
@@ -386,6 +396,31 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
+            case PreferenceManager.EMAIL_RECIPIENT: {
+                String text = ((EditTextPreference) findPreference(PreferenceManager.EMAIL_RECIPIENT)).getText();
+                preferences.setEmailRecipient(text);
+                break;
+            }
+            case PreferenceManager.EMAIL_SENDER:{
+                String text = ((EditTextPreference) findPreference(PreferenceManager.EMAIL_SENDER)).getText();
+                preferences.setEmailSender(text);
+                break;
+            }
+            case PreferenceManager.EMAIL_SERVER:{
+                String text = ((EditTextPreference) findPreference(PreferenceManager.EMAIL_SERVER)).getText();
+                preferences.setEmailServer(text);
+                break;
+            }
+            case PreferenceManager.EMAIL_ACCOUNT:{
+                String text = ((EditTextPreference) findPreference(PreferenceManager.EMAIL_ACCOUNT)).getText();
+                preferences.setEmailAccount(text);
+                break;
+            }
+            case PreferenceManager.EMAIL_PASSWORD:{
+                String text = ((EditTextPreference) findPreference(PreferenceManager.EMAIL_PASSWORD)).getText();
+                preferences.setEmailPassword(text);
+                break;
+            }
             case PreferenceManager.CAMERA:
                 switch (Integer.parseInt(((ListPreference) findPreference(PreferenceManager.CAMERA)).getValue())) {
                     case 0:

@@ -99,6 +99,14 @@ public class PreferenceManager {
     public static final String CONFIG_BASE_STORAGE = "config_base_storage";
     private static final String CONFIG_BASE_STORAGE_DEFAULT = "/haven";
 
+    // added by hbarthel (please be aware that only SMTPS (SMTP with TLS) port 465 is supported, STARTTLS is not safe enough)
+    public static final String EMAIL_NOTIFICATION_ACTIVE = "config_email_notification_active";
+    public static final String EMAIL_RECIPIENT = "config_email_recipient";
+    public static final String EMAIL_SENDER = "config_email_sender";
+    public static final String EMAIL_SERVER = "config_email_server";
+    public static final String EMAIL_ACCOUNT = "config_email_account";
+    public static final String EMAIL_PASSWORD = "config_email_password";
+
     // keeping the key value same for data migration.
     static final String REMOTE_PHONE_NUMBER = "sms_number";
     static final String REMOTE_NOTIFICATION_ACTIVE = "remote_notification_active";
@@ -442,5 +450,59 @@ public class PreferenceManager {
      */
     private String getCurrentSession() {
         return appSharedPrefs.getString(CURRENT_EVENT_START_TIME, "unknown_session");
+    }
+
+    public void setEmailNotificationActive(boolean emailNotificationActive) {
+        prefsEditor.putBoolean(EMAIL_NOTIFICATION_ACTIVE, emailNotificationActive);
+        prefsEditor.apply();
+    }
+
+    public boolean isEmailNotificationActive() {
+        return appSharedPrefs.getBoolean(EMAIL_NOTIFICATION_ACTIVE, false);
+    }
+
+    public void setEmailAccount(String emailAccount) {
+        prefsEditor.putString(EMAIL_ACCOUNT, emailAccount);
+        prefsEditor.commit();
+    }
+
+    public String getEmailAccount() {
+        return appSharedPrefs.getString(EMAIL_ACCOUNT, "");
+    }
+
+    public void setEmailPassword(String emailPassword) {
+        prefsEditor.putString(EMAIL_PASSWORD, emailPassword);
+        prefsEditor.commit();
+    }
+
+    public String getEmailPassword() {
+        return appSharedPrefs.getString(EMAIL_PASSWORD, "");
+    }
+
+    public void setEmailServer(String emailServer) {
+        prefsEditor.putString(EMAIL_SERVER, emailServer);
+        prefsEditor.commit();
+    }
+
+    public String getEmailServer() {
+        return appSharedPrefs.getString(EMAIL_SERVER, "");
+    }
+
+    public void setEmailSender(String emailSender) {
+        prefsEditor.putString(EMAIL_SENDER, emailSender);
+        prefsEditor.commit();
+    }
+
+    public String getEmailSender() {
+        return appSharedPrefs.getString(EMAIL_SENDER, "");
+    }
+
+    public void setEmailRecipient(String emailRecipient) {
+        prefsEditor.putString(EMAIL_RECIPIENT, emailRecipient);
+        prefsEditor.commit();
+    }
+
+    public String getEmailRecipient() {
+        return appSharedPrefs.getString(EMAIL_RECIPIENT, "");
     }
 }
