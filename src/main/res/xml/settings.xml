@@ -3,74 +3,73 @@
 
 
     <Preference
-        app:iconSpaceReserved="false"
         android:key="config_delay_time"
-        android:title="@string/timer_delay_label" />
+        android:title="@string/timer_delay_label"
+        app:iconSpaceReserved="false" />
 
     <EditTextPreference
-        app:iconSpaceReserved="false"
+        android:defaultValue="/haven"
         android:dialogLayout="@layout/pref_dialog_edit_text"
         android:dialogMessage="@string/config_storage_page_hint"
+        android:digits="@string/path_chars"
         android:key="config_base_storage"
         android:summary="@string/config_storage_page_hint"
         android:title="@string/config_storage_path"
-        android:defaultValue="/haven"
-        android:digits="@string/path_chars"
-        />
+        app:iconSpaceReserved="false" />
 
     <Preference
-        app:iconSpaceReserved="false"
         android:key="config_battery_optimizations"
+        android:summary="@string/disable_battery_opt_summary"
         android:title="@string/disable_battery_opt_title"
-        android:summary="@string/disable_battery_opt_summary"/>
+        app:iconSpaceReserved="false" />
 
     <PreferenceCategory
-        app:iconSpaceReserved="false"
-        android:title="@string/video_settings">
+        android:title="@string/video_settings"
+        app:iconSpaceReserved="false">
         <Preference
-            app:iconSpaceReserved="false"
             android:key="config_video_length"
-            android:title="@string/config_video_length_label" />
+            android:title="@string/config_video_length_label"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="@string/video_active_preference_key"
-            android:title="@string/video_monitoring"/>
+            android:title="@string/video_monitoring"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:iconSpaceReserved="false"
-        android:title="@string/sensors">
+        android:title="@string/sensors"
+        app:iconSpaceReserved="false">
 
         <ListPreference
-            app:iconSpaceReserved="false"
             android:entries="@array/camera"
             android:entryValues="@array/camera_alias"
             android:key="camera"
             android:summary="%s"
-            android:title="@string/camera_prompt" />
+            android:title="@string/camera_prompt"
+            app:iconSpaceReserved="false" />
 
         <Preference
-            app:iconSpaceReserved="false"
             android:key="camera_sensitivity"
-            android:title="@string/camera_sensitivity" />
+            android:title="@string/camera_sensitivity"
+            app:iconSpaceReserved="false" />
 
         <Preference
-            app:iconSpaceReserved="false"
             android:key="config_sound"
-            android:title="@string/microphone_sensitivity" />
+            android:title="@string/microphone_sensitivity"
+            app:iconSpaceReserved="false" />
 
         <Preference
-            app:iconSpaceReserved="false"
             android:key="config_movement"
-            android:title="@string/accelerometer_prompt" />
+            android:title="@string/accelerometer_prompt"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:iconSpaceReserved="false"
-        android:title="@string/label_notifications">
+        android:title="@string/label_notifications"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="false"
@@ -126,106 +125,107 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="remote_notification_active"
-            android:title="@string/remote_notification_label" />
+            android:title="@string/remote_notification_label"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text_hint"
             android:dialogMessage="@string/sms_dialog_message"
             android:inputType="phone"
             android:key="sms_number"
             android:summary="@string/sms_dialog_summary"
-            android:title="@string/phone_number" />
+            android:title="@string/phone_number"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text_hint_signal"
             android:dialogMessage="@string/register_signal_desc"
             android:inputType="phone"
             android:key="register_signal"
             android:summary="@string/signal_dialog_summary"
-            android:title="@string/signal_number" />
+            android:title="@string/signal_number"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text"
             android:dialogMessage="@string/enter_verification"
             android:inputType="number"
             android:key="verify_signal"
             android:summary="@string/verification_dialog_summary"
-            android:title="@string/verify_signal" />
+            android:title="@string/verify_signal"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text"
             android:dialogMessage="@string/notification_time_dialog"
             android:inputType="number"
             android:key="notification_time"
             android:summary="@string/notification_time_summary"
-            android:title="@string/notification_time" />
+            android:title="@string/notification_time"
+            app:iconSpaceReserved="false" />
 
         <Preference
-            app:iconSpaceReserved="false"
             android:key="reset_signal_config"
-            android:title="@string/reset_signal_configuration" />
+            android:title="@string/reset_signal_configuration"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
     <PreferenceCategory
-        app:iconSpaceReserved="false"
-        android:title="@string/hearbeat_monitor">
+        android:title="@string/hearbeat_monitor"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
-            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="heartbeat_monitor_active"
-            android:title="@string/hearbeat_monitor_enable" />
+            android:title="@string/hearbeat_monitor_enable"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text"
             android:dialogMessage="@string/heartbeat_time_dialog"
             android:inputType="number"
             android:key="heartbeat_monitor_delay"
             android:summary="@string/hearbeat_monitor_dialog"
-            android:title="@string/hearbeat_monitor_summary"/>
+            android:title="@string/hearbeat_monitor_summary"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text"
             android:dialogMessage="@string/hearbeat_message_dialog"
             android:inputType="text"
             android:key="heartbeat_monitor_message"
+            android:summary="@string/hearbeat_message_summary"
             android:title="@string/hearbeat_message_title"
-            android:summary="@string/hearbeat_message_summary" />
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
     <PreferenceCategory
-        app:iconSpaceReserved="false"
-        android:title="@string/remote_access">
+        android:title="@string/remote_access"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
-            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="remote_access_active"
             android:summary="@string/remote_access_label"
-            android:title="@string/remote_access" />
+            android:title="@string/remote_access"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_text"
             android:dialogMessage="@string/remote_access_hint"
             android:key="remote_access_onion"
             android:summary="@string/remote_access_hint"
-            android:title="@string/service_address" />
+            android:title="@string/service_address"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
-            app:iconSpaceReserved="false"
             android:dialogLayout="@layout/pref_dialog_edit_password"
             android:dialogMessage="@string/remote_access_credential_hint"
             android:inputType="textPassword"
             android:key="remote_access_credential"
             android:summary="@string/remote_access_credential_hint"
-            android:title="@string/password" />
+            android:title="@string/password"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>

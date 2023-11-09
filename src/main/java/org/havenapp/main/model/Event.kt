@@ -2,13 +2,13 @@ package org.havenapp.main.model
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import org.havenapp.main.HavenApp
-import java.util.*
+import java.util.Date
 
 /**
  * Created by Arka Prava Basu <arkaprava94@gmail.com> on 20/5/18.
@@ -18,21 +18,21 @@ class Event {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID")
-    var id : Long? = null
+    var id: Long? = null
         set(value) {
             if (value == null) return
             field = value
-            eventTriggerCountLD = Transformations.map(HavenApp.getDataBaseInstance().getEventTriggerDAO()
-                    .getEventTriggerListCountAsync(field)) {
-                Pair(field!!, it)
-            }
+            eventTriggerCountLD = HavenApp.getDataBaseInstance().getEventTriggerDAO()
+                .getEventTriggerListCountAsync(field).map {
+                    Pair(field!!, it)
+                }
         }
 
     @ColumnInfo(name = "M_START_TIME")
-    var startTime : Date? = Date()
+    var startTime: Date? = Date()
 
     @Ignore
-    private var eventTriggers : MutableList<EventTrigger> = mutableListOf()
+    private var eventTriggers: MutableList<EventTrigger> = mutableListOf()
 
     @Ignore
     private var eventTriggerCountLD: LiveData<Pair<Long, Int>>? = null
@@ -48,7 +48,7 @@ class Event {
      * When [eventTriggers] is empty this method performs a blocking db lookup.
      */
     @WorkerThread
-    fun getEventTriggers() : MutableList<EventTrigger> {
+    fun getEventTriggers(): MutableList<EventTrigger> {
 
         if (eventTriggers.size == 0) {
             val eventTriggers = HavenApp.getDataBaseInstance().getEventTriggerDAO().getEventTriggerList(id)

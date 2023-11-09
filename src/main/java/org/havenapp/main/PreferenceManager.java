@@ -36,10 +36,10 @@ import java.util.Objects;
 
 
 public class PreferenceManager {
-	
+
     private SharedPreferences appSharedPrefs;
     private Editor prefsEditor;
-    
+
     public static final String LOW = "Low";
     public static final String MEDIUM = "Medium";
     public static final String HIGH = "High";
@@ -49,36 +49,36 @@ public class PreferenceManager {
     public static final String FRONT = "Front";
     public static final String BACK = "Back";
     public static final String NONE = "None";
-	
-    private static final String APP_SHARED_PREFS="org.havenapp.main";
-    private static final String ACCELEROMETER_ACTIVE="accelerometer_active";
-    private static final String ACCELEROMETER_SENSITIVITY="accelerometer_sensibility";
-    private static final String CAMERA_ACTIVE="camera_active";
-    public static final String CAMERA="camera";
-    public static final String CAMERA_SENSITIVITY="camera_sensitivity";
-    public static final String CONFIG_MOVEMENT ="config_movement";
-    public static final String HEARTBEAT_MONITOR_ACTIVE="heartbeat_monitor_active";
-    public static final String HEARTBEAT_MONITOR_DELAY="heartbeat_monitor_delay";
-    public static final String HEARTBEAT_MONITOR_MESSAGE="heartbeat_monitor_message";
-    public static final String MONITOR_SERVICE_ACTIVE="monitor_service_active";
-    private static final String FLASH_ACTIVE="flash_active";
-    private static final String MICROPHONE_ACTIVE="microphone_active";
-    private static final String MICROPHONE_SENSITIVITY="microphone_sensitivity";
+
+    private static final String APP_SHARED_PREFS = "org.havenapp.main";
+    private static final String ACCELEROMETER_ACTIVE = "accelerometer_active";
+    private static final String ACCELEROMETER_SENSITIVITY = "accelerometer_sensibility";
+    private static final String CAMERA_ACTIVE = "camera_active";
+    public static final String CAMERA = "camera";
+    public static final String CAMERA_SENSITIVITY = "camera_sensitivity";
+    public static final String CONFIG_MOVEMENT = "config_movement";
+    public static final String HEARTBEAT_MONITOR_ACTIVE = "heartbeat_monitor_active";
+    public static final String HEARTBEAT_MONITOR_DELAY = "heartbeat_monitor_delay";
+    public static final String HEARTBEAT_MONITOR_MESSAGE = "heartbeat_monitor_message";
+    public static final String MONITOR_SERVICE_ACTIVE = "monitor_service_active";
+    private static final String FLASH_ACTIVE = "flash_active";
+    private static final String MICROPHONE_ACTIVE = "microphone_active";
+    private static final String MICROPHONE_SENSITIVITY = "microphone_sensitivity";
     public static final String CONFIG_SOUND = "config_sound";
     public static final String CONFIG_TIME_DELAY = "config_delay_time";
     public static final String REGISTER_SIGNAL = "register_signal";
     public static final String VERIFY_SIGNAL = "verify_signal";
     public static final String VOICE_VERIFY_SIGNAL = "voice_verify_signal";
     public static final String RESET_SIGNAL_CONFIG = "reset_signal_config";
-    private static final String UNLOCK_CODE="unlock_code";
-	
-    private static final String ACCESS_TOKEN="access_token";
-    private static final String DELEGATED_ACCESS_TOKEN="deferred_access_token";
-	
-    private static final String PHONE_ID="phone_id";
-    private static final String TIMER_DELAY="timer_delay";
-    private static final String VIDEO_LENGTH="video_length";
-    public static final String CONFIG_VIDEO_LENGTH ="config_video_length";
+    private static final String UNLOCK_CODE = "unlock_code";
+
+    private static final String ACCESS_TOKEN = "access_token";
+    private static final String DELEGATED_ACCESS_TOKEN = "deferred_access_token";
+
+    private static final String PHONE_ID = "phone_id";
+    private static final String TIMER_DELAY = "timer_delay";
+    private static final String VIDEO_LENGTH = "video_length";
+    public static final String CONFIG_VIDEO_LENGTH = "config_video_length";
     private static final String DIR_PATH = "/secureit";
 
     public static final String REMOTE_ACCESS_ACTIVE = "remote_access_active";
@@ -112,7 +112,7 @@ public class PreferenceManager {
     static final String REMOTE_NOTIFICATION_ACTIVE = "remote_notification_active";
 
     private Context context;
-	
+
     public PreferenceManager(Context context) {
         this.context = context;
         this.appSharedPrefs = context.getSharedPreferences(APP_SHARED_PREFS, AppCompatActivity.MODE_PRIVATE);
@@ -132,33 +132,29 @@ public class PreferenceManager {
     /**
      * Returns the Signal username registered. This may not be a good way to check for
      * Signal set up since this may not be verified.
-     *
+     * <p>
      * Usages should be checked with {@link #isSignalVerified()}
      *
-     * @see #isSignalVerified()
-     *
      * @return the Signal username; null when nothing is set up
+     * @see #isSignalVerified()
      */
-    public String getSignalUsername ()
-    {
-        return appSharedPrefs.getString(SIGNAL_USERNAME,null);
+    public String getSignalUsername() {
+        return appSharedPrefs.getString(SIGNAL_USERNAME, null);
     }
 
-    public void setSignalUsername (String signalUsername)
-    {
-        prefsEditor.putString(SIGNAL_USERNAME,signalUsername);
+    public void setSignalUsername(String signalUsername) {
+        prefsEditor.putString(SIGNAL_USERNAME, signalUsername);
         prefsEditor.commit();
     }
 
     /**
      * Returns the Signal username verified. This may not be a good way to check for
      * Signal set up since this may invalidated by a call to register with a different username.
-     *
+     * <p>
      * Usages should be checked with {@link #isSignalVerified()}
      *
-     * @see #isSignalVerified()
-     *
      * @return the verified Signal username; null when no Signal username is verified even though registered.
+     * @see #isSignalVerified()
      */
     @Nullable
     public String getVerifiedSignalUsername() {
@@ -174,67 +170,65 @@ public class PreferenceManager {
      * Checks if Signal is registered and verified for the Signal username returned by
      * {@link #getSignalUsername()}
      *
-     * @return true iff registered Signal username is same as that of the verified one.
+     * @return true if registered Signal username is same as that of the verified one.
      */
     public boolean isSignalVerified() {
         return !TextUtils.isEmpty(getSignalUsername()) &&
                 getSignalUsername().equals(getVerifiedSignalUsername());
     }
 
-    public void activateRemoteAccess (boolean active) {
-        prefsEditor.putBoolean(REMOTE_ACCESS_ACTIVE,active);
+    public void activateRemoteAccess(boolean active) {
+        prefsEditor.putBoolean(REMOTE_ACCESS_ACTIVE, active);
         prefsEditor.commit();
     }
 
-    public boolean getRemoteAccessActive ()
-    {
-        return appSharedPrefs.getBoolean(REMOTE_ACCESS_ACTIVE,false);
+    public boolean getRemoteAccessActive() {
+        return appSharedPrefs.getBoolean(REMOTE_ACCESS_ACTIVE, false);
     }
 
-    public void activateMonitorService (boolean active) {
-        prefsEditor.putBoolean(MONITOR_SERVICE_ACTIVE,active);
+    public void activateMonitorService(boolean active) {
+        prefsEditor.putBoolean(MONITOR_SERVICE_ACTIVE, active);
         prefsEditor.commit();
     }
 
-    public boolean getMonitorServiceActive ()
-    {
-        return appSharedPrefs.getBoolean(MONITOR_SERVICE_ACTIVE,false);
+    public boolean getMonitorServiceActive() {
+        return appSharedPrefs.getBoolean(MONITOR_SERVICE_ACTIVE, false);
     }
 
-    public void setRemoteAccessOnion (String onionAddress) {
-        prefsEditor.putString(REMOTE_ACCESS_ONION,onionAddress);
+    public void setRemoteAccessOnion(String onionAddress) {
+        prefsEditor.putString(REMOTE_ACCESS_ONION, onionAddress);
         prefsEditor.commit();
     }
 
-    public String getRemoteAccessOnion () {
-        return appSharedPrefs.getString(REMOTE_ACCESS_ONION,"");
+    public String getRemoteAccessOnion() {
+        return appSharedPrefs.getString(REMOTE_ACCESS_ONION, "");
     }
 
-    public void setRemoteAccessCredential (String remoteCredential) {
-        prefsEditor.putString(REMOTE_ACCESS_CRED,remoteCredential);
+    public void setRemoteAccessCredential(String remoteCredential) {
+        prefsEditor.putString(REMOTE_ACCESS_CRED, remoteCredential);
         prefsEditor.commit();
     }
 
-    public String getRemoteAccessCredential () {
-        return appSharedPrefs.getString(REMOTE_ACCESS_CRED,null);
+    public String getRemoteAccessCredential() {
+        return appSharedPrefs.getString(REMOTE_ACCESS_CRED, null);
     }
 
     public void activateAccelerometer(boolean active) {
-    	prefsEditor.putBoolean(ACCELEROMETER_ACTIVE, active);
-    	prefsEditor.commit();
+        prefsEditor.putBoolean(ACCELEROMETER_ACTIVE, active);
+        prefsEditor.commit();
     }
-    
+
     public boolean getAccelerometerActivation() {
-    	return appSharedPrefs.getBoolean(ACCELEROMETER_ACTIVE, true);
+        return appSharedPrefs.getBoolean(ACCELEROMETER_ACTIVE, true);
     }
-    
+
     public void setAccelerometerSensitivity(String sensitivity) {
-    	prefsEditor.putString(ACCELEROMETER_SENSITIVITY, sensitivity);
-    	prefsEditor.commit();
+        prefsEditor.putString(ACCELEROMETER_SENSITIVITY, sensitivity);
+        prefsEditor.commit();
     }
-    
+
     public String getAccelerometerSensitivity() {
-    	return appSharedPrefs.getString(ACCELEROMETER_SENSITIVITY, HIGH);
+        return appSharedPrefs.getString(ACCELEROMETER_SENSITIVITY, HIGH);
     }
 
     public void setActivateVideoMonitoring(boolean active) {
@@ -247,57 +241,57 @@ public class PreferenceManager {
     }
 
     public void activateCamera(boolean active) {
-    	prefsEditor.putBoolean(CAMERA_ACTIVE, active);
-    	prefsEditor.commit();
+        prefsEditor.putBoolean(CAMERA_ACTIVE, active);
+        prefsEditor.commit();
     }
-    
+
     public boolean getCameraActivation() {
-    	return appSharedPrefs.getBoolean(CAMERA_ACTIVE, true);
+        return appSharedPrefs.getBoolean(CAMERA_ACTIVE, true);
     }
-    
+
     public void setCamera(String camera) {
-    	prefsEditor.putString(CAMERA, camera);
-    	prefsEditor.commit();
+        prefsEditor.putString(CAMERA, camera);
+        prefsEditor.commit();
     }
-    
+
     public String getCamera() {
-    	return appSharedPrefs.getString(CAMERA, FRONT);
+        return appSharedPrefs.getString(CAMERA, FRONT);
     }
-    
+
     public void setCameraSensitivity(int sensitivity) {
-    	prefsEditor.putInt(CAMERA_SENSITIVITY, sensitivity);
-    	prefsEditor.commit();
+        prefsEditor.putInt(CAMERA_SENSITIVITY, sensitivity);
+        prefsEditor.commit();
     }
-    
+
     public int getCameraSensitivity() {
-    	return appSharedPrefs.getInt(CAMERA_SENSITIVITY, LuminanceMotionDetector.MOTION_MEDIUM);
+        return appSharedPrefs.getInt(CAMERA_SENSITIVITY, LuminanceMotionDetector.MOTION_MEDIUM);
     }
-    
+
     public void activateFlash(boolean active) {
-    	prefsEditor.putBoolean(FLASH_ACTIVE, active);
-    	prefsEditor.commit();
+        prefsEditor.putBoolean(FLASH_ACTIVE, active);
+        prefsEditor.commit();
     }
-    
+
     public boolean getFlashActivation() {
-    	return appSharedPrefs.getBoolean(FLASH_ACTIVE, false);
+        return appSharedPrefs.getBoolean(FLASH_ACTIVE, false);
     }
-    
+
     public void activateMicrophone(boolean active) {
-    	prefsEditor.putBoolean(MICROPHONE_ACTIVE, active);
-    	prefsEditor.commit();
+        prefsEditor.putBoolean(MICROPHONE_ACTIVE, active);
+        prefsEditor.commit();
     }
-    
+
     public boolean getMicrophoneActivation() {
-    	return appSharedPrefs.getBoolean(MICROPHONE_ACTIVE, true);
+        return appSharedPrefs.getBoolean(MICROPHONE_ACTIVE, true);
     }
-    
+
     public void setMicrophoneSensitivity(String sensitivity) {
-    	prefsEditor.putString(MICROPHONE_SENSITIVITY, sensitivity);
-    	prefsEditor.commit();
+        prefsEditor.putString(MICROPHONE_SENSITIVITY, sensitivity);
+        prefsEditor.commit();
     }
-    
+
     public String getMicrophoneSensitivity() {
-    	return appSharedPrefs.getString(MICROPHONE_SENSITIVITY, MEDIUM);
+        return appSharedPrefs.getString(MICROPHONE_SENSITIVITY, MEDIUM);
     }
 
     public void setRemoteNotificationActive(boolean isRemoteNotificationActive) {
@@ -319,25 +313,21 @@ public class PreferenceManager {
         return Objects.requireNonNull(appSharedPrefs.getString(REMOTE_PHONE_NUMBER, ""));
     }
 
-    public int getTimerDelay ()
-    {
-        return appSharedPrefs.getInt(TIMER_DELAY,30);
+    public int getTimerDelay() {
+        return appSharedPrefs.getInt(TIMER_DELAY, 30);
     }
 
-    public void setTimerDelay (int delay)
-    {
-        prefsEditor.putInt(TIMER_DELAY,delay);
+    public void setTimerDelay(int delay) {
+        prefsEditor.putInt(TIMER_DELAY, delay);
         prefsEditor.commit();
     }
 
-    public int getMonitoringTime ()
-    {
-        return appSharedPrefs.getInt(VIDEO_LENGTH,30);
+    public int getMonitoringTime() {
+        return appSharedPrefs.getInt(VIDEO_LENGTH, 30);
     }
 
-    public void setMonitoringTime (int delay)
-    {
-        prefsEditor.putInt(VIDEO_LENGTH,delay);
+    public void setMonitoringTime(int delay) {
+        prefsEditor.putInt(VIDEO_LENGTH, delay);
         prefsEditor.commit();
     }
 
@@ -351,43 +341,40 @@ public class PreferenceManager {
     }
 
     public String getDirPath() {
-    	return DIR_PATH;
+        return DIR_PATH;
     }
-    
+
     public String getSMSText() {
         return context.getString(R.string.intrusion_detected);
     }
 
-    public int getMaxImages ()
-    {
+    public int getMaxImages() {
         return 10;
     }
 
     public String getBaseStoragePath() {
-        return appSharedPrefs.getString(CONFIG_BASE_STORAGE,CONFIG_BASE_STORAGE_DEFAULT);
+        return appSharedPrefs.getString(CONFIG_BASE_STORAGE, CONFIG_BASE_STORAGE_DEFAULT);
     }
 
     public String getDefaultMediaStoragePath() {
-        return appSharedPrefs.getString(CONFIG_BASE_STORAGE,CONFIG_BASE_STORAGE_DEFAULT) + File.separator + getCurrentSession(); //phoneypot is the old code name for Haven
+        return appSharedPrefs.getString(CONFIG_BASE_STORAGE, CONFIG_BASE_STORAGE_DEFAULT) + File.separator + getCurrentSession(); //phoneypot is the old code name for Haven
     }
 
-    public void setDefaultMediaStoragePath (String path)
-    {
-        prefsEditor.putString(CONFIG_BASE_STORAGE,path);
+    public void setDefaultMediaStoragePath(String path) {
+        prefsEditor.putString(CONFIG_BASE_STORAGE, path);
         prefsEditor.commit();
     }
 
-    public int getAudioLength ()
-    {
+    public int getAudioLength() {
         return 15000; //30 seconds
     }
 
-    public int getNotificationTimeMs () {
-        return appSharedPrefs.getInt(NOTIFICATION_TIME,-1); //time in minutes times by seconds
+    public int getNotificationTimeMs() {
+        return appSharedPrefs.getInt(NOTIFICATION_TIME, 0); //time in minutes times by seconds
     }
 
-    public void setNotificationTimeMs (int notificationTimeMs) {
-        prefsEditor.putInt(NOTIFICATION_TIME,notificationTimeMs);
+    public void setNotificationTimeMs(int notificationTimeMs) {
+        prefsEditor.putInt(NOTIFICATION_TIME, notificationTimeMs);
         prefsEditor.commit();
     }
 
@@ -396,8 +383,8 @@ public class PreferenceManager {
         prefsEditor.commit();
     }
 
-    public void setHeartbeatMonitorNotifications (int notificationTimeMs) {
-        prefsEditor.putInt(HEARTBEAT_MONITOR_DELAY,notificationTimeMs);
+    public void setHeartbeatMonitorNotifications(int notificationTimeMs) {
+        prefsEditor.putInt(HEARTBEAT_MONITOR_DELAY, notificationTimeMs);
         prefsEditor.commit();
     }
 
@@ -405,17 +392,15 @@ public class PreferenceManager {
         return appSharedPrefs.getBoolean(HEARTBEAT_MONITOR_ACTIVE, false);
     }
 
-    public int getHeartbeatNotificationTimeMs () {
-        return appSharedPrefs.getInt(HEARTBEAT_MONITOR_DELAY,300000);
+    public int getHeartbeatNotificationTimeMs() {
+        return appSharedPrefs.getInt(HEARTBEAT_MONITOR_DELAY, 300000);
     }
 
-    public String getHeartbeatMonitorMessage ()
-    {
-        return appSharedPrefs.getString(HEARTBEAT_MONITOR_MESSAGE,null);
+    public String getHeartbeatMonitorMessage() {
+        return appSharedPrefs.getString(HEARTBEAT_MONITOR_MESSAGE, null);
     }
 
-    public void setHeartbeatMonitorMessage (String hearbeatMessage)
-    {
+    public void setHeartbeatMonitorMessage(String hearbeatMessage) {
         prefsEditor.putString(HEARTBEAT_MONITOR_MESSAGE, hearbeatMessage);
         prefsEditor.commit();
     }
@@ -435,7 +420,7 @@ public class PreferenceManager {
      * representing current date and time for the key {@link #CURRENT_EVENT_START_TIME}.
      *
      * @param startTime the {@link org.havenapp.main.model.Event#startTime} for an
-     * {@link org.havenapp.main.model.Event}
+     *                  {@link org.havenapp.main.model.Event}
      */
     public void setCurrentSession(Date startTime) {
         prefsEditor.putString(CURRENT_EVENT_START_TIME, Utils.getDateTime(startTime));

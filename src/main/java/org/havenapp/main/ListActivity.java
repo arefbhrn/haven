@@ -17,6 +17,10 @@
 
 package org.havenapp.main;
 
+import static org.havenapp.main.database.DbConstantsKt.DB_INIT_END;
+import static org.havenapp.main.database.DbConstantsKt.DB_INIT_START;
+import static org.havenapp.main.database.DbConstantsKt.DB_INIT_STATUS;
+
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,7 +52,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import org.havenapp.main.database.HavenEventDB;
@@ -69,10 +72,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kotlin.Pair;
-
-import static org.havenapp.main.database.DbConstantsKt.DB_INIT_END;
-import static org.havenapp.main.database.DbConstantsKt.DB_INIT_START;
-import static org.havenapp.main.database.DbConstantsKt.DB_INIT_STATUS;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -104,7 +103,7 @@ public class ListActivity extends AppCompatActivity {
     private Observer<Pair<Long, Integer>> eventTriggerCountObserver = pair -> {
         if (pair != null && adapter != null && events != null) {
             int pos = -1;
-            for (int  i = 0; i < events.size(); i++) {
+            for (int i = 0; i < events.size(); i++) {
                 if (events.get(i).getId().equals(pair.getFirst())) {
                     pos = i;
                     break;
@@ -233,7 +232,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void observeEvents(@NonNull List<Event> events) {
-        for (Event event: events) {
+        for (Event event : events) {
             if (event.getEventTriggersCountLD() == null)
                 continue;
             event.getEventTriggersCountLD().observe(this, eventTriggerCountObserver);
@@ -259,8 +258,7 @@ public class ListActivity extends AppCompatActivity {
         findViewById(R.id.empty_view).setVisibility(View.GONE);
     }
 
-    private void deleteEvent(final Event event)
-    {
+    private void deleteEvent(final Event event) {
         new EventDeleteAsync(() -> onEventDeleted(event)).execute(event);
     }
 
@@ -268,8 +266,8 @@ public class ListActivity extends AppCompatActivity {
         Snackbar.make(recyclerView, resourceManager.getString(R.string.event_deleted), Snackbar.LENGTH_SHORT)
                 .setAction(resourceManager.getString(R.string.undo),
                         v -> new EventInsertAsync(eventId -> {
-                    event.setId(eventId);
-                }).execute(event))
+                            event.setId(eventId);
+                        }).execute(event))
                 .show();
     }
 
@@ -277,8 +275,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_INTRO)
-        {
+        if (requestCode == REQUEST_CODE_INTRO) {
             preferences.setFirstLaunch(false);
             Intent i = new Intent(ListActivity.this, MonitorActivity.class);
             startActivity(i);
@@ -292,9 +289,8 @@ public class ListActivity extends AppCompatActivity {
         HavenEventDB.getDatabase(this).getEventDAO().count().observe(this, eventCountObserver);
     }
 
-    private void showOnboarding()
-    {
-        startActivityForResult(new Intent(this, PPAppIntro.class),REQUEST_CODE_INTRO);
+    private void showOnboarding() {
+        startActivityForResult(new Intent(this, PPAppIntro.class), REQUEST_CODE_INTRO);
 
     }
 
@@ -306,10 +302,10 @@ public class ListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_settings:
-                startActivity(new Intent(this,SettingsActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
             case R.id.action_remove_all_events:
                 removeAllEvents();
@@ -336,8 +332,7 @@ public class ListActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(dbBroadcastReceiver);
     }
 
-    private void removeAllEvents()
-    {
+    private void removeAllEvents() {
         final List<Event> removedEvents = new ArrayList<>(events);
         new EventDeleteAllAsync(() -> onAllEventsRemoved(removedEvents)).execute(removedEvents);
     }
@@ -350,29 +345,27 @@ public class ListActivity extends AppCompatActivity {
         Snackbar.make(recyclerView, resourceManager.getString(R.string.events_deleted), Snackbar.LENGTH_SHORT)
                 .setAction(resourceManager.getString(R.string.undo),
                         v -> new EventInsertAllAsync(eventIdList -> {
-                    for (int i = 0; i < removedEvents.size(); i++) {
-                        Event event = removedEvents.get(i);
-                        event.setId(eventIdList.get(i));
-                    }
-                }).execute(removedEvents)
+                            for (int i = 0; i < removedEvents.size(); i++) {
+                                Event event = removedEvents.get(i);
+                                event.setId(eventIdList.get(i));
+                            }
+                        }).execute(removedEvents)
                 )
                 .show();
     }
 
-    private void showLicenses ()
-    {
+    private void showLicenses() {
         new LibsBuilder()
                 //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
-                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+//                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .withAboutIconShown(true)
                 .withAboutVersionShown(true)
                 .withAboutAppName(resourceManager.getString(R.string.app_name))
-                                //start the activity
+                //start the activity
                 .start(this);
     }
 
-    private void testNotifications ()
-    {
+    private void testNotifications() {
 
         if (preferences.isSignalVerified()) {
             SignalSender sender = SignalSender.getInstance(this, preferences.getSignalUsername().trim());

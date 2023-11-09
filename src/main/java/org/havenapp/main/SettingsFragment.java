@@ -105,19 +105,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         switchPreference.setChecked(preferences.isRemoteNotificationActive());
 
         switchPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                    // user wants to enable/disable remote notification
+            // user wants to enable/disable remote notification
+            boolean enabled = (Boolean) newValue;
 
-                    boolean enabled = (Boolean) newValue;
+            if (enabled && !canSendRemoteNotification()) {
+                collectDataForRemoteNotification();
+            }
 
-                    if (enabled && !canSendRemoteNotification()) {
-                        collectDataForRemoteNotification();
-                    }
+            preferences.setRemoteNotificationActive(enabled && canSendRemoteNotification());
+            switchPreference.setChecked(enabled && canSendRemoteNotification());
 
-                    preferences.setRemoteNotificationActive(enabled && canSendRemoteNotification());
-                    switchPreference.setChecked(enabled && canSendRemoteNotification());
-
-                    return false;
-                });
+            return false;
+        });
 
         findPreference(PreferenceManager.REMOTE_PHONE_NUMBER).setOnPreferenceClickListener(preference -> {
             if (preferences.getRemotePhoneNumber().isEmpty()) {
@@ -165,9 +164,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             findPreference(PreferenceManager.REGISTER_SIGNAL).setSummary(R.string.register_signal_desc);
         }
 
-        if (preferences.getNotificationTimeMs()>0)
-        {
-            findPreference(PreferenceManager.NOTIFICATION_TIME).setSummary(preferences.getNotificationTimeMs()/60000 + " " + getString(R.string.minutes));
+        if (preferences.getNotificationTimeMs() > 0) {
+            findPreference(PreferenceManager.NOTIFICATION_TIME).setSummary(preferences.getNotificationTimeMs() / 60000 + " " + getString(R.string.minutes));
         }
 
         findPreference(PreferenceManager.RESET_SIGNAL_CONFIG).setOnPreferenceClickListener(preference -> {
@@ -175,23 +173,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
 
-        if (preferences.getHeartbeatActive())
-        {
+        if (preferences.getHeartbeatActive()) {
             ((SwitchPreference) findPreference(PreferenceManager.HEARTBEAT_MONITOR_ACTIVE)).setChecked(true);
             if (preferences.getHeartbeatActive()) {
                 findPreference(PreferenceManager.HEARTBEAT_MONITOR_DELAY).setSummary(preferences.getHeartbeatNotificationTimeMs() / 60000 + " " + getString(R.string.minutes));
-            }
-            else
+            } else
                 findPreference(PreferenceManager.HEARTBEAT_MONITOR_DELAY).setSummary(R.string.heartbeat_time_dialog);
         }
 
-        if (preferences.getHeartbeatNotificationTimeMs()> 300000)
-        {
+        if (preferences.getHeartbeatNotificationTimeMs() > 300000) {
             findPreference(PreferenceManager.HEARTBEAT_MONITOR_DELAY).setSummary(preferences.getHeartbeatNotificationTimeMs() / 60000 + " " + getString(R.string.minutes));
         }
 
-        if (preferences.getHeartbeatMonitorMessage() == null)
-        {
+        if (preferences.getHeartbeatMonitorMessage() == null) {
             findPreference(PreferenceManager.HEARTBEAT_MONITOR_MESSAGE).setSummary(R.string.hearbeat_message_summary);
         } else {
             findPreference(PreferenceManager.HEARTBEAT_MONITOR_MESSAGE).setSummary(R.string.hearbeat_message_summary_on);
@@ -485,16 +479,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 }
                 break;
             case PreferenceManager.NOTIFICATION_TIME:
-                try
-                {
-                    String text = ((EditTextPreference)findPreference(PreferenceManager.NOTIFICATION_TIME)).getText();
-                    int notificationTimeMs = Integer.parseInt(text)*60000;
+                try {
+                    String text = ((EditTextPreference) findPreference(PreferenceManager.NOTIFICATION_TIME)).getText();
+                    int notificationTimeMs = Integer.parseInt(text) * 60000;
                     preferences.setNotificationTimeMs(notificationTimeMs);
-                    findPreference(PreferenceManager.NOTIFICATION_TIME).setSummary(preferences.getNotificationTimeMs()/60000 + " " + getString(R.string.minutes));
+                    findPreference(PreferenceManager.NOTIFICATION_TIME).setSummary(preferences.getNotificationTimeMs() / 60000 + " " + getString(R.string.minutes));
 
-                }
-                catch (NumberFormatException ne)
-                {
+                } catch (NumberFormatException ne) {
                     //error parsing user value
                 }
 
@@ -572,8 +563,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 if (checkValidString(text)) {
                     preferences.setHeartbeatMonitorMessage(text);
                     findPreference(PreferenceManager.HEARTBEAT_MONITOR_MESSAGE).setSummary(R.string.hearbeat_message_summary_on);
-                }
-                else {
+                } else {
                     preferences.setHeartbeatMonitorMessage(null);
                     findPreference(PreferenceManager.HEARTBEAT_MONITOR_MESSAGE).setSummary(R.string.hearbeat_message_summary);
                 }
@@ -591,7 +581,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         return "+" + String.valueOf(phoneUtil.getCountryCodeForRegion(Locale.getDefault().getCountry()));
     }
 
-    private void setDefaultStoragePath () {
+    private void setDefaultStoragePath() {
         String defaultStoragePath = ((EditTextPreference) findPreference(PreferenceManager.CONFIG_BASE_STORAGE)).getText();
         preferences.setDefaultMediaStoragePath(defaultStoragePath);
     }
@@ -602,7 +592,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if (checkValidString(phoneNumber) && !getCountryCode().equalsIgnoreCase(phoneNumber)) {
             preferences.setRemotePhoneNumber(phoneNumber.trim());
             findPreference(PreferenceManager.REMOTE_PHONE_NUMBER).setSummary(phoneNumber.trim());
-        } else if (!getCountryCode().equalsIgnoreCase(phoneNumber)){
+        } else if (!getCountryCode().equalsIgnoreCase(phoneNumber)) {
             preferences.setRemotePhoneNumber("");
             findPreference(PreferenceManager.REMOTE_PHONE_NUMBER).setSummary(R.string.sms_dialog_message);
         }
@@ -668,22 +658,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     getString(R.string.signal_registration_desc));
             sender.register(preferences.getVoiceVerificationEnabled(),
                     new SignalExecutorTask.TaskResult() {
-                @Override
-                public void onSuccess(@NonNull String msg) {
-                    if (isAdded() && getActivity() != null) {
-                        progressDialog.dismiss();
-                    }
-                    showRegistrationSuccessDialog();
-                }
+                        @Override
+                        public void onSuccess(@NonNull String msg) {
+                            if (isAdded() && getActivity() != null) {
+                                progressDialog.dismiss();
+                            }
+                            showRegistrationSuccessDialog();
+                        }
 
-                @Override
-                public void onFailure(@NonNull String msg) {
-                    if (isAdded() && getActivity() != null) {
-                        progressDialog.dismiss();
-                    }
-                    Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                }
-            });
+                        @Override
+                        public void onFailure(@NonNull String msg) {
+                            if (isAdded() && getActivity() != null) {
+                                progressDialog.dismiss();
+                            }
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
+                    });
         } else {
             ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.verifying_signal),
                     getString(R.string.verifying_signal_desc));
@@ -791,9 +781,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
     }
 
-    private void requestChangeBatteryOptimizations ()
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    private void requestChangeBatteryOptimizations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
             String packageName = getActivity().getPackageName();
             PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
@@ -807,7 +796,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
     }
 
-    public void checkCallToVerify (View v) {
+    public void checkCallToVerify(View v) {
         Switch callSwitch = v.findViewById(R.id.signalCallSwitch);
         if (callSwitch != null && callSwitch.isChecked()) {
             preferences.setVoiceVerification(true);

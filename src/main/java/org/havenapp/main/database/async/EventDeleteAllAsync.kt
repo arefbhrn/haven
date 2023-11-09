@@ -7,6 +7,7 @@ import org.havenapp.main.model.Event
 /**
  * Created by Arka Prava Basu <arkaprava94@gmail.com> on 6/9/18.
  */
+@Suppress("OverrideDeprecatedMigration")
 class EventDeleteAllAsync(private val listener: EventDeleteAllListener)
     : AsyncTask<List<Event>, Unit, Unit>() {
     override fun doInBackground(vararg params: List<Event>) {
